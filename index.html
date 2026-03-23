@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -10,53 +11,76 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     :root {
+      /* Paleta de Cores Premium */
       --bg: #f8fafc;
       --card: #ffffff;
       --text: #334155;
       --heading: #0f172a;
       --muted: #64748b;
       --border: #e2e8f0;
+      --border-hover: #cbd5e1;
+      
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
+      --primary-active: #1e40af;
       --primary-soft: #eff6ff;
-      --success: #10b981;
-      --danger: #ef4444;
-      --warning: #f59e0b;
+      --primary-border: #bfdbfe;
+      
+      --success: #059669;
+      --success-bg: #ecfdf5;
+      --success-border: #a7f3d0;
+      
+      --danger: #dc2626;
+      --warning: #d97706;
+      --warning-bg: #fffbeb;
+      --warning-border: #fde68a;
+
+      /* Sombras e Raios Reduzidos para proporção menor */
       --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-      --radius-xl: 1.5rem;
-      --radius-lg: 1rem;
-      --radius-md: 0.75rem;
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --radius-xl: 1rem;
+      --radius-lg: 0.75rem;
+      --radius-md: 0.5rem;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     html, body {
       background-color: var(--bg);
       color: var(--text);
-      font-family: 'Inter', Arial, Helvetica, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.5;
       min-height: 100vh;
+      /* Define a base da fonte levemente menor se necessário, mas as classes abaixo farão o trabalho pesado */
+      font-size: 15px; 
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     body::before {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0;
-      height: 40vh;
+      height: 35vh;
       background: linear-gradient(180deg, #e0e7ff 0%, rgba(248, 250, 252, 0) 100%);
       z-index: -1;
     }
 
+    :focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
     .page {
-      max-width: 1160px;
-      margin: 40px auto;
+      max-width: 1080px;
+      margin: 32px auto;
       padding: 0 20px;
     }
 
@@ -69,23 +93,25 @@
     }
 
     .hero {
-      padding: 40px;
+      padding: 32px 40px;
       border-bottom: 1px solid var(--border);
-      background: #ffffff;
+      background: var(--card);
     }
 
     .pill {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
+      gap: 6px;
+      padding: 4px 12px;
       border-radius: 999px;
       background: var(--primary-soft);
       color: var(--primary);
-      font-size: 0.875rem;
+      font-size: 0.7rem;
       font-weight: 600;
-      margin-bottom: 24px;
-      border: 1px solid rgba(37, 99, 235, 0.1);
+      margin-bottom: 16px;
+      border: 1px solid rgba(37, 99, 235, 0.15);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
     }
 
     .title-row {
@@ -98,22 +124,27 @@
 
     h1 {
       color: var(--heading);
-      font-size: clamp(2rem, 3vw, 2.5rem);
+      font-size: clamp(1.5rem, 2.5vw, 1.85rem);
       font-weight: 800;
       line-height: 1.1;
       letter-spacing: -0.02em;
     }
 
     .subtitle {
-      margin-top: 12px;
-      max-width: 760px;
+      margin-top: 8px;
+      max-width: 700px;
       color: var(--muted);
-      font-size: 1.02rem;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .subtitle strong {
+      color: var(--heading);
     }
 
     .hero-side {
       display: flex;
-      gap: 16px;
+      gap: 12px;
       align-items: center;
       flex-wrap: wrap;
     }
@@ -122,30 +153,31 @@
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 12px 16px;
-      min-width: 130px;
+      padding: 10px 16px;
+      min-width: 120px;
+      box-shadow: var(--shadow-sm);
     }
 
     .mini-stat .k {
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--muted);
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .mini-stat .v {
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: var(--heading);
       font-weight: 700;
     }
 
     .content {
       display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr);
-      gap: 32px;
-      padding: 40px;
+      grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+      gap: 24px;
+      padding: 32px 40px;
       background: #fafbfc;
     }
 
@@ -153,31 +185,38 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 28px;
+      padding: 24px;
       box-shadow: var(--shadow-sm);
     }
 
     .panel-title {
       color: var(--heading);
-      font-size: 1.25rem;
+      font-size: 1rem;
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .panel-sub {
       color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 24px;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
     }
 
     .alert-safe {
-      background: #ecfdf5;
-      color: #065f46;
-      border: 1px solid #a7f3d0;
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 0.92rem;
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.85rem;
       margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      line-height: 1.4;
     }
 
     .drop {
@@ -185,14 +224,14 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 220px;
-      border: 2px dashed #cbd5e1;
+      min-height: 180px;
+      border: 2px dashed var(--border-hover);
       border-radius: var(--radius-lg);
       background: var(--bg);
       text-align: center;
-      padding: 32px;
+      padding: 24px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all var(--transition);
     }
 
     .drop:hover, .drop.drag {
@@ -201,8 +240,8 @@
     }
 
     .drop-icon {
-      width: 56px;
-      height: 56px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       background: var(--card);
       color: var(--primary);
@@ -210,157 +249,194 @@
       place-items: center;
       margin-bottom: 16px;
       box-shadow: var(--shadow-md);
-      font-size: 24px;
-      font-weight: 800;
+      transition: transform var(--transition);
+    }
+
+    .drop-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .drop:hover .drop-icon {
+      transform: translateY(-2px);
     }
 
     .drop strong {
       color: var(--heading);
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       margin-bottom: 4px;
       display: block;
     }
 
     .drop span {
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 
     .file-note {
-      margin-top: 16px;
-      font-size: 0.9rem;
+      margin-top: 12px;
+      font-size: 0.85rem;
       color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .mode-grid {
       display: grid;
-      gap: 16px;
-      margin-top: 24px;
+      gap: 12px;
+      margin-top: 16px;
     }
 
     .mode-card {
-      border: 2px solid var(--border);
+      border: 1px solid var(--border);
       background: var(--card);
       border-radius: var(--radius-md);
-      padding: 20px;
+      padding: 16px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all var(--transition);
       position: relative;
     }
 
     .mode-card:hover {
-      border-color: #94a3b8;
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-sm);
     }
 
     .mode-card.active {
       border-color: var(--primary);
       background: var(--primary-soft);
+      border-width: 2px;
+      padding: 15px; /* Compensa a borda de 2px para não pular */
+    }
+
+    .mode-card::before {
+      content: "";
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--border-hover);
+      background: var(--card);
+      transition: all var(--transition);
     }
 
     .mode-card.active::before {
-      content: "";
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
+      border-color: var(--primary);
       background: var(--primary);
+      box-shadow: inset 0 0 0 3px var(--card);
     }
 
     .mode-title {
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--heading);
-      margin-bottom: 6px;
-      padding-right: 36px;
+      margin-bottom: 4px;
+      padding-right: 32px;
     }
 
     .mode-desc {
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       margin-bottom: 12px;
-      padding-right: 30px;
+      padding-right: 24px;
+      line-height: 1.4;
     }
 
     .mode-tags {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .tag {
-      padding: 4px 10px;
-      border-radius: 6px;
-      background: #e2e8f0;
-      color: #475569;
-      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--border);
+      color: var(--text);
+      font-size: 0.65rem;
       font-weight: 600;
+      letter-spacing: 0.02em;
     }
 
     .mode-card.active .tag {
-      background: #dbeafe;
-      color: #1e40af;
-    }
-
-    .mode-actions {
-      display: flex;
-      justify-content: flex-start;
-      margin-top: 8px;
+      background: var(--primary-border);
+      color: var(--primary-active);
     }
 
     .what-btn {
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--heading);
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-size: 0.83rem;
+      border: none;
+      background: transparent;
+      color: var(--primary);
+      padding: 0;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color var(--transition);
     }
 
     .what-btn:hover {
-      background: #f8fafc;
-      border-color: #cbd5e1;
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+
+    .what-btn::after {
+      content: "↓";
+      font-size: 0.75rem;
+      transition: transform var(--transition);
+    }
+    .what-btn[aria-expanded="true"]::after {
+      transform: rotate(180deg);
     }
 
     .mode-details {
-      display: none;
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid #dbeafe;
-      background: rgba(255,255,255,0.85);
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 8px;
+      border: 1px solid transparent;
     }
 
     .mode-details.open {
-      display: block;
+      max-height: 300px;
+      opacity: 1;
+      margin-top: 12px;
+      padding: 12px;
+      border-color: var(--primary-border);
     }
 
     .mode-details h4 {
-      font-size: 0.92rem;
+      font-size: 0.8rem;
       color: var(--heading);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .mode-details ul {
-      padding-left: 18px;
+      padding-left: 16px;
       color: var(--text);
-      font-size: 0.88rem;
-      line-height: 1.6;
-      margin-bottom: 10px;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      margin-bottom: 8px;
     }
 
+    .mode-details li { margin-bottom: 2px; }
+
     .mode-details .warn {
-      color: #92400e;
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 0.84rem;
+      color: var(--warning);
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 0.75rem;
+      font-weight: 500;
     }
 
     .actions {
@@ -368,194 +444,123 @@
       gap: 12px;
       flex-wrap: wrap;
       align-items: center;
-      margin-top: 32px;
-      padding-top: 24px;
+      margin-top: 24px;
+      padding-top: 20px;
       border-top: 1px solid var(--border);
     }
 
     button {
       border: 0;
-      border-radius: 8px;
-      padding: 12px 24px;
-      font-size: 0.95rem;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 0.85rem;
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
     }
 
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      background: var(--primary-hover);
-      box-shadow: var(--shadow-md);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: #f1f5f9;
-      color: var(--heading);
-      border: 1px solid var(--border);
-    }
-
-    .btn-secondary:hover:not(:disabled) {
-      background: #e2e8f0;
-    }
+    .btn-primary { background: var(--primary); color: #fff; box-shadow: var(--shadow-sm); }
+    .btn-primary:hover:not(:disabled) { background: var(--primary-hover); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    .btn-primary:active:not(:disabled) { transform: translateY(0); background: var(--primary-active); }
+    
+    .btn-secondary { background: #f1f5f9; color: var(--heading); border: 1px solid var(--border); }
+    .btn-secondary:hover:not(:disabled) { background: var(--border); }
 
     .status {
       margin-top: 16px;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
+    .status::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; }
+    .info::before { background-color: var(--primary); }
+    .ok::before { background-color: var(--success); }
+    .err::before { background-color: var(--danger); }
+    
     .info { color: var(--primary); }
     .ok { color: var(--success); }
     .err { color: var(--danger); }
 
     .aside-stack {
       display: grid;
-      gap: 24px;
+      gap: 20px;
       align-content: start;
     }
 
     .progress-track {
       width: 100%;
-      height: 12px;
+      height: 8px;
       background: var(--border);
       border-radius: 999px;
       overflow: hidden;
-      margin-top: 8px;
+      margin-top: 6px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
     }
 
     .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: var(--primary);
-      background-image: linear-gradient(
-        45deg,
-        rgba(255,255,255,0.15) 25%,
-        transparent 25%,
-        transparent 50%,
-        rgba(255,255,255,0.15) 50%,
-        rgba(255,255,255,0.15) 75%,
-        transparent 75%,
-        transparent
-      );
+      width: 0%; height: 100%; background: var(--primary);
+      background-image: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent);
       background-size: 1rem 1rem;
-      transition: width 0.4s ease;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       border-radius: 999px;
     }
 
-    .progress-bar.active {
-      animation: progress-stripes 1s linear infinite;
-    }
-
-    @keyframes progress-stripes {
-      from { background-position: 1rem 0; }
-      to { background-position: 0 0; }
-    }
+    .progress-bar.active { animation: progress-stripes 1s linear infinite; }
+    @keyframes progress-stripes { from { background-position: 1rem 0; } to { background-position: 0 0; } }
 
     .progress-text {
-      margin-top: 12px;
-      font-weight: 600;
-      color: var(--heading);
-      font-size: 0.95rem;
+      margin-top: 8px; font-weight: 600; color: var(--heading); font-size: 0.8rem; display: flex; justify-content: space-between;
     }
 
     .metric-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 24px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px;
     }
 
     .metric {
-      padding: 16px;
-      border-radius: var(--radius-md);
-      background: var(--bg);
-      border: 1px solid var(--border);
+      padding: 12px; border-radius: var(--radius-md); background: var(--bg); border: 1px solid var(--border);
     }
 
-    .metric .k {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
+    .metric .k { font-size: 0.65rem; text-transform: uppercase; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+    .metric .v { font-size: 0.85rem; font-weight: 700; color: var(--heading); }
 
-    .metric .v {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--heading);
-    }
-
-    .tips {
-      display: grid;
-      gap: 12px;
-    }
+    .tips { display: grid; gap: 8px; }
 
     .tip {
-      padding: 16px;
-      border-radius: var(--radius-md);
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-size: 0.9rem;
+      padding: 12px; border-radius: var(--radius-md); background: var(--bg); border: 1px solid var(--border); color: var(--text); font-size: 0.8rem; line-height: 1.4;
     }
 
     .mode-summary {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      margin-top: 14px;
+      background: var(--primary-soft); border: 1px solid var(--primary-border); border-radius: 8px; padding: 12px; margin-top: 12px;
     }
-
-    .mode-summary h4 {
-      font-size: 0.92rem;
-      margin-bottom: 8px;
-      color: var(--heading);
-    }
-
-    .mode-summary p {
-      font-size: 0.88rem;
-      color: var(--text);
-      line-height: 1.6;
-    }
+    .mode-summary h4 { font-size: 0.8rem; margin-bottom: 6px; color: var(--primary-active); }
+    .mode-summary p { font-size: 0.75rem; color: var(--text); line-height: 1.5; }
 
     .foot-note {
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.85rem;
+      margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.75rem; line-height: 1.4;
     }
 
-    input[type="file"] {
-      display: none;
-    }
+    input[type="file"] { display: none; }
 
-    @media (max-width: 960px) {
-      .content {
-        grid-template-columns: 1fr;
-      }
-    }
-
+    @media (max-width: 960px) { .content { grid-template-columns: 1fr; } }
     @media (max-width: 640px) {
-      .page { margin: 20px auto; }
-      .hero { padding: 24px; }
-      .content { padding: 24px; }
-      .title-row { flex-direction: column; align-items: flex-start; }
+      .page { margin: 16px auto; }
+      .hero, .content { padding: 24px 20px; }
+      .title-row { flex-direction: column; align-items: flex-start; gap: 16px;}
       .actions { flex-direction: column; align-items: stretch; }
       .actions button { width: 100%; }
     }
@@ -565,15 +570,15 @@
   <div class="page">
     <div class="app-shell">
 
-      <div class="hero">
+      <header class="hero">
         <div class="pill">Sem conta • Sem API key • 3 modos</div>
 
         <div class="title-row">
           <div>
             <h1>GeoPadroniza</h1>
             <p class="subtitle">
-              Preserva colunas originais e só adiciona colunas <strong>geo_*</strong> no final.
-              Agora com explicação clara do que cada modo faz para o cliente entender antes de processar.
+              Preserva colunas originais e adiciona colunas <strong>geo_*</strong> de forma estruturada.
+              Escolha seu modo de processamento com total clareza e segurança.
             </p>
           </div>
 
@@ -588,151 +593,158 @@
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div class="content">
+      <main class="content">
 
-        <div class="panel">
+        <section class="panel">
           <h2 class="panel-title">1. Envio da Planilha</h2>
           <p class="panel-sub">
-            Para preservar CPF, CNPJ, abas e estrutura original com segurança, use <strong>.xlsx</strong> ou <strong>.xlsm</strong>.
+            Utilize arquivos <strong>.xlsx</strong> ou <strong>.xlsm</strong> para preservar a integridade estrutural.
           </p>
 
           <div class="alert-safe">
-            <strong>Segurança:</strong> este sistema não apaga nome, CPF, CNPJ, documento ou outras colunas originais.
-            Ele só adiciona colunas novas com prefixo <strong>geo_*</strong>.
+            <div>
+              <strong>Processamento Seguro:</strong> Seus dados sensíveis não são apagados ou modificados. O sistema isola os resultados no final.
+            </div>
           </div>
 
-          <label class="drop" id="dropZone" for="fileInput">
-            <div class="drop-icon">↑</div>
+          <label class="drop" id="dropZone" for="fileInput" tabindex="0">
+            <div class="drop-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </div>
             <strong>Clique ou arraste sua planilha</strong>
             <span>Suporta arquivos .xlsx e .xlsm</span>
           </label>
           <input id="fileInput" type="file" accept=".xlsx,.xlsm" />
 
-          <div class="file-note" id="fileNote">Nenhum arquivo selecionado.</div>
+          <div class="file-note" id="fileNote">
+            Nenhum arquivo selecionado.
+          </div>
 
           <h2 class="panel-title" style="margin-top: 32px;">2. Escolha o Modo</h2>
           <div class="mode-grid">
 
-            <div class="mode-card active" id="modeUltraCard" data-mode="ultra">
+            <article class="mode-card active" id="modeUltraCard" data-mode="ultra" tabindex="0">
               <div class="mode-title">Ultra-rápido</div>
               <div class="mode-desc">
-                O mais rápido de todos. Indicado para lotes enormes.
+                O mais veloz. Indicado para triagem de bases gigantescas.
               </div>
               <div class="mode-tags">
-                <span class="tag">Mais rápido</span>
-                <span class="tag">100% local</span>
+                <span class="tag">Velocidade Máxima</span>
+                <span class="tag">100% Local</span>
               </div>
-              <div class="mode-actions">
-                <button type="button" class="what-btn" data-target="details-ultra">O que faz</button>
-              </div>
+              <button type="button" class="what-btn" aria-expanded="false" data-target="details-ultra">Detalhes da execução</button>
+              
               <div class="mode-details" id="details-ultra">
-                <h4>No modo Ultra-rápido, o sistema faz:</h4>
+                <h4>Neste modo, o sistema executa:</h4>
                 <ul>
-                  <li>remove espaços duplicados</li>
-                  <li>padroniza maiúsculas e minúsculas</li>
-                  <li>padroniza tipo de logradouro, como Rua → R e Avenida → Av</li>
-                  <li>corrige nomes conhecidos de ruas cadastradas nas regras locais</li>
-                  <li>padroniza bairro, cidade, UF e CEP quando der localmente</li>
-                  <li>marca linhas suspeitas para revisão</li>
-                  <li>gera colunas geo_* sem mexer nas colunas originais</li>
+                  <li>Remoção de espaços duplicados</li>
+                  <li>Padronização de caixa (Maiúsculas/Minúsculas)</li>
+                  <li>Normalização de logradouros (Rua → R, Avenida → Av)</li>
+                  <li>Correção via regras locais</li>
+                  <li>Sinalização de linhas que necessitam revisão</li>
                 </ul>
                 <div class="warn">
-                  Não consulta internet, não usa ViaCEP e não busca latitude/longitude.
+                  Restrição: Não realiza chamadas web, não consome ViaCEP e não retorna Lat/Lng.
                 </div>
               </div>
-            </div>
+            </article>
 
-            <div class="mode-card" id="modeRapidoCard" data-mode="rapido">
+            <article class="mode-card" id="modeRapidoCard" data-mode="rapido" tabindex="0">
               <div class="mode-title">Rápido</div>
               <div class="mode-desc">
-                Equilíbrio entre velocidade e validação.
+                Equilíbrio ideal entre performance e validação externa.
               </div>
               <div class="mode-tags">
                 <span class="tag">Intermediário</span>
-                <span class="tag">Sem lat/lng</span>
+                <span class="tag">Sem Lat/Lng</span>
               </div>
-              <div class="mode-actions">
-                <button type="button" class="what-btn" data-target="details-rapido">O que faz</button>
-              </div>
+              <button type="button" class="what-btn" aria-expanded="false" data-target="details-rapido">Detalhes da execução</button>
+              
               <div class="mode-details" id="details-rapido">
-                <h4>No modo Rápido, o sistema faz:</h4>
+                <h4>Neste modo, o sistema executa:</h4>
                 <ul>
-                  <li>faz tudo o que o Ultra-rápido faz</li>
-                  <li>identifica linhas suspeitas</li>
-                  <li>quando a linha parece ruim, tenta corrigir usando ViaCEP</li>
-                  <li>prioriza correção de CEP, bairro, cidade, UF e logradouro</li>
-                  <li>gera colunas geo_* sem alterar os dados originais</li>
+                  <li>Todas as etapas do modo Ultra-rápido</li>
+                  <li>Identificação de anomalias no endereço</li>
+                  <li>Correção ativa de linhas suspeitas via API ViaCEP</li>
                 </ul>
                 <div class="warn">
-                  Não usa OSM/Nominatim e não traz latitude/longitude.
+                  Restrição: Não utiliza serviços de geocodificação, sem retorno de coordenadas.
                 </div>
               </div>
-            </div>
+            </article>
 
-            <div class="mode-card" id="modeCompletoCard" data-mode="completo">
+            <article class="mode-card" id="modeCompletoCard" data-mode="completo" tabindex="0">
               <div class="mode-title">Completo</div>
               <div class="mode-desc">
-                O mais detalhado. Melhor para revisão final ou lotes menores.
+                Enriquecimento total. Ideal para lotes menores e fechamento.
               </div>
               <div class="mode-tags">
-                <span class="tag">Mais completo</span>
-                <span class="tag">Com lat/lng</span>
+                <span class="tag">Máxima Precisão</span>
+                <span class="tag">Com Lat/Lng</span>
               </div>
-              <div class="mode-actions">
-                <button type="button" class="what-btn" data-target="details-completo">O que faz</button>
-              </div>
+              <button type="button" class="what-btn" aria-expanded="false" data-target="details-completo">Detalhes da execução</button>
+              
               <div class="mode-details" id="details-completo">
-                <h4>No modo Completo, o sistema faz:</h4>
+                <h4>Neste modo, o sistema executa:</h4>
                 <ul>
-                  <li>faz tudo o que o modo Rápido faz</li>
-                  <li>tenta validar por CEP com ViaCEP</li>
-                  <li>tenta validar por endereço com ViaCEP</li>
-                  <li>tenta geocodificar no OSM/Nominatim</li>
-                  <li>quando encontra, adiciona display do endereço, latitude e longitude</li>
-                  <li>gera colunas geo_* sem alterar as colunas originais</li>
+                  <li>Todas as validações do modo Rápido</li>
+                  <li>Checagem cruzada via ViaCEP</li>
+                  <li>Geocodificação de ponta a ponta via OSM/Nominatim</li>
+                  <li>Enriquecimento com <strong>Latitude e Longitude</strong></li>
                 </ul>
                 <div class="warn">
-                  É o modo mais demorado, principalmente em planilhas muito grandes.
+                  Aviso: O tempo de processamento é maior devido ao limite de requisições web.
                 </div>
               </div>
-            </div>
+            </article>
 
           </div>
 
           <div class="actions">
-            <button class="btn-primary" id="processBtn">Processar Planilha</button>
-            <button class="btn-secondary" id="clearBtn" type="button">Limpar Tudo</button>
+            <button class="btn-primary" id="processBtn">
+              Processar Planilha
+            </button>
+            <button class="btn-secondary" id="clearBtn" type="button">
+              Limpar Tudo
+            </button>
           </div>
 
-          <div class="status info" id="status">Aguardando arquivo para iniciar.</div>
-        </div>
+          <div class="status info" id="status" aria-live="polite">Aguardando arquivo para iniciar.</div>
+        </section>
 
-        <div class="aside-stack">
+        <aside class="aside-stack">
 
           <div class="panel">
             <h2 class="panel-title">Progresso</h2>
-            <p class="panel-sub" style="margin-bottom: 16px;">Acompanhamento em tempo real</p>
+            <p class="panel-sub" style="margin-bottom: 12px;">Acompanhamento em tempo real</p>
 
-            <div class="progress-track">
+            <div class="progress-track" aria-hidden="true">
               <div class="progress-bar" id="progressBar"></div>
             </div>
-            <div class="progress-text" id="progressText">0%</div>
+            <div class="progress-text">
+              <span id="progressPercent">0%</span>
+              <span id="progressLabel" style="color: var(--muted); font-weight: 500;">Pronto</span>
+            </div>
 
             <div class="metric-grid">
               <div class="metric">
-                <div class="k">Modo em uso</div>
+                <div class="k">Modo Selecionado</div>
                 <div class="v" id="modeHint">Ultra-rápido</div>
               </div>
               <div class="metric">
-                <div class="k">Status</div>
+                <div class="k">Status da Fila</div>
                 <div class="v" id="statusHint">Aguardando</div>
               </div>
             </div>
 
             <div class="mode-summary" id="modeSummaryBox">
-              <h4>O que será feito neste modo</h4>
+              <h4>Comportamento do Motor</h4>
               <p id="modeSummaryText">
                 Padronização local, sem consultas externas. Ideal para lotes enormes e para uma primeira passada na base.
               </p>
@@ -740,108 +752,1356 @@
           </div>
 
           <div class="panel">
-            <h2 class="panel-title">Como ele funciona</h2>
-            <div class="tips">
-              <div class="tip"><strong>Não altera</strong> CPF, CNPJ, nome, documento e outras colunas originais.</div>
-              <div class="tip"><strong>Só adiciona</strong> colunas <strong>geo_*</strong> no final.</div>
-              <div class="tip"><strong>Cria</strong> uma aba <strong>LOG_PROCESSAMENTO</strong> com resumo do que foi processado.</div>
+            <h2 class="panel-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+              Como funciona
+            </h2>
+            <div class="tips" style="margin-top: 12px;">
+              <div class="tip"><strong>Garantia de Integridade:</strong> Não altera CPF, CNPJ, nome, e demais colunas originais.</div>
+              <div class="tip"><strong>Estrutura Mantida:</strong> Adiciona as colunas tratadas no final do arquivo.</div>
+              <div class="tip"><strong>Auditoria:</strong> Cria uma aba com o resumo da operação.</div>
             </div>
 
             <div class="foot-note">
-              Fluxo recomendado: Ultra-rápido no lote inteiro → depois rápido ou completo só nas linhas que precisarem revisão.
+              <strong>💡 Dica de Fluxo:</strong> Rode o modo <em>Ultra-rápido</em> no lote inteiro. Filtre os suspeitos e rode o <em>Completo</em> apenas nas linhas que falharam.
             </div>
           </div>
 
-        </div>
-      </div>
+        </aside>
+      </main>
     </div>
   </div>
 
   <script>
-    const fileInput = document.getElementById("fileInput");
-    const dropZone = document.getElementById("dropZone");
-    const processBtn = document.getElementById("processBtn");
-    const clearBtn = document.getElementById("clearBtn");
-    const statusEl = document.getElementById("status");
-    const progressBar = document.getElementById("progressBar");
-    const progressText = document.getElementById("progressText");
-    const modeHint = document.getElementById("modeHint");
-    const statusHint = document.getElementById("statusHint");
-    const fileNote = document.getElementById("fileNote");
-    const topModeLabel = document.getElementById("topModeLabel");
-    const modeSummaryText = document.getElementById("modeSummaryText");
+    const DOM = {
+      fileInput: document.getElementById("fileInput"),
+      dropZone: document.getElementById("dropZone"),
+      processBtn: document.getElementById("processBtn"),
+      clearBtn: document.getElementById("clearBtn"),
+      statusEl: document.getElementById("status"),
+      progressBar: document.getElementById("progressBar"),
+      progressPercent: document.getElementById("progressPercent"),
+      progressLabel: document.getElementById("progressLabel"),
+      modeHint: document.getElementById("modeHint"),
+      statusHint: document.getElementById("statusHint"),
+      fileNote: document.getElementById("fileNote"),
+      topModeLabel: document.getElementById("topModeLabel"),
+      modeSummaryText: document.getElementById("modeSummaryText"),
+      cards: {
+        ultra: document.getElementById("modeUltraCard"),
+        rapido: document.getElementById("modeRapidoCard"),
+        completo: document.getElementById("modeCompletoCard")
+      },
+      accordions: document.querySelectorAll(".what-btn")
+    };
 
-    const modeUltraCard = document.getElementById("modeUltraCard");
-    const modeRapidoCard = document.getElementById("modeRapidoCard");
-    const modeCompletoCard = document.getElementById("modeCompletoCard");
-
-    let selectedFile = null;
-    let polling = null;
-    let selectedMode = "ultra";
-
-    const modeDescriptions = {
-      ultra: "Padronização local, sem consultas externas. Ideal para lotes enormes e para uma primeira passada na base.",
-      rapido: "Padronização local e validação via ViaCEP apenas quando a linha parece suspeita. Bom equilíbrio entre velocidade e validação.",
-      completo: "Padronização local, ViaCEP e OSM/Nominatim. Melhor para revisão final e para obter mais detalhes, incluindo lat/lng."
+    const State = {
+      selectedFile: null,
+      polling: null,
+      selectedMode: "ultra",
+      descriptions: {
+        ultra: "Padronização local focada em regex e dicionários. Velocidade máxima em detrimento de enriquecimento web.",
+        rapido: "Validação híbrida. Utiliza ViaCEP de forma cirúrgica apenas em endereços sinalizados como suspeitos.",
+        completo: "Tratamento profundo. Bate os dados no ViaCEP e geocodifica no Nominatim para extração de coordenadas precisas."
+      }
     };
 
     function setStatus(msg, type = "info") {
-      statusEl.textContent = msg;
-      statusEl.className = "status " + type;
-      statusHint.textContent = type === "err" ? "Erro" : type === "ok" ? "Concluído" : "Em andamento";
+      DOM.statusEl.textContent = msg;
+      DOM.statusEl.className = `status ${type}`;
+      DOM.statusHint.textContent = type === "err" ? "Erro" : type === "ok" ? "Concluído" : "Processando...";
     }
 
     function setLoading(isLoading) {
-      processBtn.disabled = isLoading;
-      clearBtn.disabled = isLoading;
-      fileInput.disabled = isLoading;
-      modeUltraCard.style.pointerEvents = isLoading ? "none" : "auto";
-      modeRapidoCard.style.pointerEvents = isLoading ? "none" : "auto";
-      modeCompletoCard.style.pointerEvents = isLoading ? "none" : "auto";
-      dropZone.style.pointerEvents = isLoading ? "none" : "auto";
+      DOM.processBtn.disabled = isLoading;
+      DOM.clearBtn.disabled = isLoading;
+      DOM.fileInput.disabled = isLoading;
+      
+      const pointerState = isLoading ? "none" : "auto";
+      Object.values(DOM.cards).forEach(card => card.style.pointerEvents = pointerState);
+      DOM.dropZone.style.pointerEvents = pointerState;
 
       if (isLoading) {
-        progressBar.classList.add("active");
+        DOM.processBtn.innerHTML = `
+          <svg class="spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+          Processando...
+        `;
+        DOM.progressBar.classList.add("active");
       } else {
-        progressBar.classList.remove("active");
+        DOM.processBtn.innerHTML = "Processar Planilha";
+        DOM.progressBar.classList.remove("active");
       }
     }
 
     function setProgress(value, current = 0, total = 0, message = "") {
       const pct = Math.max(0, Math.min(100, Number(value || 0)));
-      progressBar.style.width = pct + "%";
+      DOM.progressBar.style.width = pct + "%";
+      DOM.progressPercent.textContent = `${pct}%`;
 
       if (total > 0) {
-        progressText.textContent = `${pct}% • ${current}/${total} • ${message || ""}`;
+        DOM.progressLabel.textContent = `${current}/${total} • ${message || "Andamento"}`;
       } else {
-        progressText.textContent = `${pct}% • ${message || ""}`;
+        DOM.progressLabel.textContent = message || (pct === 0 ? "Pronto" : "Processando...");
+      }
+    }
+
+    function renderMode() {
+      Object.entries(DOM.cards).forEach(([key, element]) => {
+        element.classList.toggle("active", State.selectedMode === key);
+      });
+
+      const titles = { ultra: "Ultra-rápido", rapido: "Rápido", completo: "Completo" };
+      const labels = { ultra: "Ultra", rapido: "Rápido", completo: "Completo" };
+
+      DOM.modeHint.textContent = titles[State.selectedMode];
+      DOM.topModeLabel.textContent = labels[State.selectedMode];
+      DOM.modeSummaryText.textContent = State.descriptions[State.selectedMode];
+    }
+
+    function updateFileNote(fileName) {
+      if (fileName) {
+        DOM.fileNote.innerHTML = `<strong style="color:var(--heading)">Arquivo:</strong>&nbsp;${fileName}`;
+        setStatus("Pronto para iniciar.", "info");
+      } else {
+        DOM.fileNote.innerHTML = "Nenhum arquivo selecionado.";
+        setStatus("Aguardando arquivo para iniciar.", "info");
       }
     }
 
     function getDownloadNameFromHeader(response) {
       const cd = response.headers.get("Content-Disposition");
-      if (!cd) return "geopadroniza.xlsx";
+      if (!cd) return "geopadroniza_resultado.xlsx";
       const match = cd.match(/filename="?([^"]+)"?/i);
-      return match ? match[1] : "geopadroniza.xlsx";
+      return match ? match[1] : "geopadroniza_resultado.xlsx";
+    }
+
+    async function baixarArquivo(jobId) {
+      const response = await fetch(`/download/${jobId}`);
+      if (!response.ok) {
+        let msg = "Erro ao baixar arquivo.";
+        try { const err = await response.json(); msg = err.detail || msg; } catch (_) {}
+        throw new Error(msg);
+      }
+
+      const blob = await response.blob();
+      const filename = getDownloadNameFromHeader(response);
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    async function acompanharJob(jobId) {
+      State.polling = setInterval(async () => {
+        try {
+          const response = await fetch(`/status/${jobId}`);
+          if (!response.ok) throw new Error("Falha na comunicação.");
+
+          const data = await response.json();
+          setProgress(data.progress, data.current, data.total, data.message);
+          setStatus(data.message, data.status === "erro" ? "err" : "info");
+
+          if (data.done) {
+            clearInterval(State.polling);
+            State.polling = null;
+            setLoading(false);
+
+            if (data.error) {
+              setStatus(data.error, "err");
+              return;
+            }
+
+            setProgress(100, data.current, data.total, "Concluído");
+            setStatus("Baixando arquivo...", "ok");
+            await baixarArquivo(jobId);
+          }
+        } catch (err) {
+          clearInterval(State.polling);
+          State.polling = null;
+          setLoading(false);
+          setStatus(err.message || "Erro de conexão.", "err");
+        }
+      }, 1000);
+    }
+
+    function closeAllAccordions() {
+      document.querySelectorAll(".mode-details").forEach(el => el.classList.remove("open"));
+      DOM.accordions.forEach(btn => btn.setAttribute("aria-expanded", "false"));
+    }
+
+    DOM.accordions.forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const targetId = btn.getAttribute("data-target");
+        const target = document.getElementById(targetId);
+        const isOpen = target.classList.contains("open");
+
+        closeAllAccordions();
+        if (!isOpen) {
+          target.classList.add("open");
+          btn.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+
+    Object.entries(DOM.cards).forEach(([key, card]) => {
+      card.addEventListener("click", () => {
+        State.selectedMode = key;
+        renderMode();
+      });
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          State.selectedMode = key;
+          renderMode();
+        }
+      });
+    });
+
+    DOM.fileInput.addEventListener("change", () => {
+      State.selectedFile = DOM.fileInput.files[0] || null;
+      updateFileNote(State.selectedFile ? State.selectedFile.name : null);
+    });
+
+    DOM.dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      DOM.dropZone.classList.add("drag");
+    });
+
+    DOM.dropZone.addEventListener("dragleave", () => DOM.dropZone.classList.remove("drag"));
+
+    DOM.dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      DOM.dropZone.classList.remove("drag");
+
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+
+      if (!/\.(xlsx|xlsm)$/i.test(file.name)) {
+        setStatus("Formato inválido.", "err");
+        return;
+      }
+
+      State.selectedFile = file;
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      DOM.fileInput.files = dt.files;
+      updateFileNote(file.name);
+    });
+
+    DOM.dropZone.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        DOM.fileInput.click();
+      }
+    });
+
+    DOM.clearBtn.addEventListener("click", () => {
+      State.selectedFile = null;
+      DOM.fileInput.value = "";
+      updateFileNote(null);
+      setProgress(0, 0, 0, "");
+      DOM.statusHint.textContent = "Aguardando";
+      closeAllAccordions();
+    });
+
+    DOM.processBtn.addEventListener("click", async () => {
+      if (!State.selectedFile) {
+        setStatus("Selecione uma planilha.", "err");
+        DOM.dropZone.style.borderColor = "var(--danger)";
+        setTimeout(() => DOM.dropZone.style.borderColor = "", 2000);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setProgress(0, 0, 0, "Transferindo...");
+        setStatus(`Modo ${State.selectedMode}...`, "info");
+        DOM.statusHint.textContent = "Enviando";
+
+        const form = new FormData();
+        form.append("file", State.selectedFile);
+        form.append("mode", State.selectedMode);
+
+        const response = await fetch("/process", { method: "POST", body: form });
+
+        if (!response.ok) {
+          let msg = "Falha no servidor.";
+          try { const err = await response.json(); msg = err.detail || msg; } catch (_) {}
+          throw new Error(msg);
+        }
+
+        const data = await response.json();
+        await acompanharJob(data.job_id);
+
+      } catch (err) {
+        setLoading(false);
+        setStatus(err.message || "Erro inesperado.", "err");
+      }
+    });
+
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = `@keyframes spin { 100% { transform: rotate(360deg); } }`;
+    document.head.appendChild(styleSheet);
+
+    renderMode();
+  </script>
+</body>
+</html>
+=======
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GeoPadroniza | Processamento Seguro</title>
+
+  <link rel="icon" type="image/jpeg" href="/favicon.jpg">
+  <link rel="shortcut icon" type="image/jpeg" href="/favicon.jpg">
+  <link rel="apple-touch-icon" href="/favicon.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f3f6f9;
+      --card: #ffffff;
+      --text: #475569;
+      --heading: #0f172a;
+      --muted: #94a3b8;
+      --border: #e2e8f0;
+      --border-hover: #cbd5e1;
+
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --primary-active: #1d4ed8;
+      --primary-soft: #eff6ff;
+      --primary-border: #bfdbfe;
+
+      --success: #059669;
+      --success-bg: #ecfdf5;
+      --success-border: #a7f3d0;
+
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --warning-bg: #fffbeb;
+      --warning-border: #fde68a;
+
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+      --shadow-lg: 0 12px 24px -4px rgba(0,0,0,0.08), 0 8px 16px -6px rgba(0,0,0,0.04);
+
+      --radius-xl: 1.25rem;
+      --radius-lg: 1rem;
+      --radius-md: 0.75rem;
+      --radius-sm: 0.5rem;
+
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 40vh;
+      background: linear-gradient(180deg, #dbeafe 0%, rgba(243, 246, 249, 0) 100%);
+      z-index: -1;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    .app-shell {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 40px 48px;
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+      position: relative;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-hover);
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      border: 1px solid var(--primary-border);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .brand-block {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      display: block;
+      height: 64px;
+      width: auto;
+      max-width: min(100%, 420px);
+      object-fit: contain;
+    }
+
+    .subtitle {
+      max-width: 720px;
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .subtitle strong {
+      color: var(--heading);
+      font-weight: 700;
+    }
+
+    .hero-side {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .mini-stat {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 20px;
+      min-width: 130px;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition);
+    }
+
+    .mini-stat:hover {
+      transform: translateY(-2px);
+    }
+
+    .mini-stat .k {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .mini-stat .v {
+      font-size: 1.05rem;
+      color: var(--heading);
+      font-weight: 800;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(320px, 1fr);
+      gap: 32px;
+      padding: 40px 48px;
+      background: #fafbfc;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .panel-title {
+      color: var(--heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-sub {
+      color: var(--text);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .alert-safe {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      line-height: 1.5;
+    }
+
+    .drop {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      border: 2px dashed var(--border-hover);
+      border-radius: var(--radius-lg);
+      background: #f8fafc;
+      text-align: center;
+      padding: 32px;
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .drop:hover, .drop.drag {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      transform: scale(1.01);
+    }
+
+    .drop-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--card);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-md);
+      transition: transform var(--transition);
+    }
+
+    .drop-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .drop:hover .drop-icon {
+      transform: translateY(-4px) scale(1.05);
+    }
+
+    .drop strong {
+      color: var(--heading);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .drop span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .file-note {
+      margin-top: 16px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mode-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .mode-card {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .mode-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .mode-card.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      border-width: 2px;
+      padding: 19px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .mode-card::before {
+      content: "";
+      position: absolute;
+      top: 22px;
+      right: 20px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border-hover);
+      background: var(--card);
+      transition: all var(--transition);
+    }
+
+    .mode-card.active::before {
+      border-color: var(--primary);
+      background: var(--primary);
+      box-shadow: inset 0 0 0 4px var(--card);
+    }
+
+    .mode-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--heading);
+      margin-bottom: 6px;
+      padding-right: 40px;
+    }
+
+    .mode-desc {
+      color: var(--text);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      padding-right: 30px;
+      line-height: 1.5;
+    }
+
+    .mode-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: var(--text);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .mode-card.active .tag {
+      background: white;
+      color: var(--primary-hover);
+      border: 1px solid var(--primary-border);
+    }
+
+    .what-btn {
+      border: none;
+      background: transparent;
+      color: var(--primary);
+      padding: 0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color var(--transition);
+    }
+
+    .what-btn:hover {
+      color: var(--primary-active);
+    }
+
+    .what-btn::after {
+      content: "↓";
+      font-size: 0.8rem;
+      transition: transform var(--transition);
+    }
+
+    .what-btn[aria-expanded="true"]::after {
+      transform: rotate(180deg);
+    }
+
+    .mode-details {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+    }
+
+    .mode-details.open {
+      max-height: 520px;
+      opacity: 1;
+      margin-top: 16px;
+      padding: 16px;
+      border-color: var(--primary-border);
+    }
+
+    .mode-details h4 {
+      font-size: 0.85rem;
+      color: var(--heading);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .mode-details ul {
+      padding-left: 20px;
+      color: var(--text);
+      font-size: 0.8rem;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .mode-details li {
+      margin-bottom: 4px;
+    }
+
+    .mode-details .warn {
+      color: #b45309;
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    button {
+      border: 0;
+      border-radius: var(--radius-sm);
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+      background: var(--primary-active);
+    }
+
+    .btn-secondary {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--border);
+      color: var(--heading);
+    }
+
+    .status {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+    }
+
+    .status::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .info::before { background-color: var(--primary); }
+    .ok::before { background-color: var(--success); }
+    .err::before { background-color: var(--danger); }
+
+    .info { color: var(--primary-hover); border: 1px solid var(--primary-border); background: var(--primary-soft); }
+    .ok { color: var(--success); border: 1px solid var(--success-border); background: var(--success-bg); }
+    .err { color: var(--danger); border: 1px solid #fecaca; background: #fef2f2; }
+
+    .aside-stack {
+      display: grid;
+      gap: 24px;
+      align-content: start;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 8px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: var(--primary);
+      background-image: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent);
+      background-size: 1rem 1rem;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 999px;
+    }
+
+    .progress-bar.active {
+      animation: progress-stripes 1s linear infinite;
+    }
+
+    @keyframes progress-stripes {
+      from { background-position: 1rem 0; }
+      to { background-position: 0 0; }
+    }
+
+    .progress-text {
+      margin-top: 10px;
+      font-weight: 700;
+      color: var(--heading);
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .metric .k {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .metric .v {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+
+    .tips {
+      display: grid;
+      gap: 12px;
+    }
+
+    .tip {
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      position: relative;
+      padding-left: 36px;
+    }
+
+    .tip::before {
+      content: "✓";
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    .mode-summary {
+      background: var(--primary-soft);
+      border: 1px solid var(--primary-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .mode-summary h4 {
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      color: var(--primary-active);
+      font-weight: 700;
+    }
+
+    .mode-summary p {
+      font-size: 0.8rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .foot-note {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    @media (max-width: 960px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        margin: 16px auto;
+        padding: 0 16px;
+      }
+
+      .hero, .content {
+        padding: 24px 20px;
+      }
+
+      .title-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .actions button {
+        width: 100%;
+      }
+
+      .progress-text {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="app-shell">
+
+      <header class="hero">
+        <div class="pill">Sem conta • Sem API key • 3 modos</div>
+
+        <div class="title-row">
+          <div class="brand-block">
+            <div class="brand-wrap">
+              <img src="/logo.jpg" alt="Logo GeoPadroniza" class="brand-logo">
+            </div>
+
+            <p class="subtitle">
+              <strong>Não cria colunas geo_* nem aba de log.</strong>
+              O sistema trabalha nas <strong>colunas originais</strong>, tenta
+              <strong>mover valor para a coluna certa</strong> quando identifica com segurança
+              e <strong>limpa o que for lixo</strong> quando não dá para reaproveitar.
+            </p>
+          </div>
+
+          <div class="hero-side">
+            <div class="mini-stat">
+              <div class="k">Modo Atual</div>
+              <div class="v" id="topModeLabel">Ultra</div>
+            </div>
+            <div class="mini-stat">
+              <div class="k">Formatos</div>
+              <div class="v">XLSX • XLSM</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="panel">
+          <h2 class="panel-title">1. Envio da Planilha</h2>
+          <p class="panel-sub">
+            Utilize arquivos <strong>.xlsx</strong> ou <strong>.xlsm</strong> para preservar a integridade estrutural.
+          </p>
+
+          <div class="alert-safe">
+            <div>
+              <strong>Processamento Seguro:</strong> o sistema mantém a estrutura da planilha,
+              ajusta os dados nas colunas originais e evita deixar lixo como cidade no CEP,
+              UF na cidade ou bairro no lugar errado quando conseguir identificar corretamente.
+            </div>
+          </div>
+
+          <label class="drop" id="dropZone" for="fileInput" tabindex="0">
+            <div class="drop-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </div>
+            <strong>Clique ou arraste sua planilha</strong>
+            <span>Suporta arquivos .xlsx e .xlsm</span>
+          </label>
+          <input id="fileInput" type="file" accept=".xlsx,.xlsm" />
+
+          <div class="file-note" id="fileNote">
+            Nenhum arquivo selecionado.
+          </div>
+
+          <h2 class="panel-title" style="margin-top: 40px;">2. Escolha o Modo</h2>
+          <div class="mode-grid">
+            <article class="mode-card active" id="modeUltraCard" data-mode="ultra" tabindex="0">
+              <div class="mode-title">Ultra-rápido</div>
+              <div class="mode-desc">
+                Motor local reforçado. Ideal para lotes grandes quando você quer velocidade com correção inteligente sem web.
+              </div>
+              <div class="mode-tags">
+                <span class="tag">100% Local</span>
+                <span class="tag">Realoca e limpa</span>
+              </div>
+              <button type="button" class="what-btn" aria-expanded="false" data-target="details-ultra">Detalhes da execução</button>
+
+              <div class="mode-details" id="details-ultra">
+                <h4>Neste modo, o sistema executa:</h4>
+                <ul>
+                  <li>Limpeza e padronização de texto</li>
+                  <li>Normalização de logradouros, número, cidade, bairro, UF e CEP</li>
+                  <li>Reaproveitamento de valores em coluna errada quando a identificação for segura</li>
+                  <li>Tentativa por <strong>CEP válido</strong> na base local</li>
+                  <li>Se o CEP estiver ruim, tentativa por <strong>endereço</strong> na base local</li>
+                  <li>Se ainda falhar, tentativa de <strong>CEP aproximado da cidade/UF</strong> na base local</li>
+                  <li>Limpeza do valor inválido quando não houver recuperação confiável</li>
+                </ul>
+                <div class="warn">
+                  <span>Restrição:</span>
+                  <span>não realiza chamadas web. É o modo mais rápido, mas já faz correção local forte.</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="mode-card" id="modeRapidoCard" data-mode="rapido" tabindex="0">
+              <div class="mode-title">Rápido</div>
+              <div class="mode-desc">
+                No backend atual, usa o mesmo motor local do Ultra. É uma opção intermediária de uso, sem consultas web.
+              </div>
+              <div class="mode-tags">
+                <span class="tag">Base Local</span>
+                <span class="tag">Sem Web</span>
+              </div>
+              <button type="button" class="what-btn" aria-expanded="false" data-target="details-rapido">Detalhes da execução</button>
+
+              <div class="mode-details" id="details-rapido">
+                <h4>Neste modo, o sistema executa:</h4>
+                <ul>
+                  <li>As mesmas etapas locais do modo Ultra no backend atual</li>
+                  <li>Padronização e tentativa de correção sem usar ViaCEP ou geocodificação</li>
+                  <li>Busca por CEP, endereço e fallback por cidade/UF usando apenas a base local</li>
+                </ul>
+                <div class="warn">
+                  <span>Observação:</span>
+                  <span>com o backend atual, Ultra e Rápido usam a mesma lógica local. O modo Completo é quem adiciona validação web.</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="mode-card" id="modeCompletoCard" data-mode="completo" tabindex="0">
+              <div class="mode-title">Completo</div>
+              <div class="mode-desc">
+                Usa toda a base local e ainda tenta validação externa. Indicado para fechamento e revisão mais profunda.
+              </div>
+              <div class="mode-tags">
+                <span class="tag">Base Local + Web</span>
+                <span class="tag">Máxima Revisão</span>
+              </div>
+              <button type="button" class="what-btn" aria-expanded="false" data-target="details-completo">Detalhes da execução</button>
+
+              <div class="mode-details" id="details-completo">
+                <h4>Neste modo, o sistema executa:</h4>
+                <ul>
+                  <li>Tudo que já é feito pelo motor local</li>
+                  <li>Tentativa adicional por <strong>ViaCEP</strong> quando necessário</li>
+                  <li>Busca complementar por endereço via web</li>
+                  <li>Geocodificação via <strong>OSM/Nominatim</strong> quando aplicável</li>
+                  <li>Revisão mais profunda para lotes menores e finalização</li>
+                </ul>
+                <div class="warn">
+                  <span>Aviso:</span>
+                  <span>é o modo mais lento, porque adiciona consultas externas após a etapa local.</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary" id="processBtn">
+              Processar Planilha
+            </button>
+            <button class="btn-secondary" id="clearBtn" type="button">
+              Limpar Tudo
+            </button>
+          </div>
+
+          <div class="status" id="status" aria-live="polite" style="display: none;"></div>
+        </section>
+
+        <aside class="aside-stack">
+          <div class="panel">
+            <h2 class="panel-title">Progresso</h2>
+            <p class="panel-sub" style="margin-bottom: 16px;">Acompanhamento em tempo real</p>
+
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-text">
+              <span id="progressPercent">0%</span>
+              <span id="progressLabel" style="color: var(--muted); font-weight: 500;">Pronto</span>
+            </div>
+
+            <div class="metric-grid">
+              <div class="metric">
+                <div class="k">Modo Selecionado</div>
+                <div class="v" id="modeHint">Ultra-rápido</div>
+              </div>
+              <div class="metric">
+                <div class="k">Status da Fila</div>
+                <div class="v" id="statusHint">Aguardando</div>
+              </div>
+            </div>
+
+            <div class="mode-summary" id="modeSummaryBox">
+              <h4>Comportamento do Motor</h4>
+              <p id="modeSummaryText">
+                Motor local reforçado: normaliza, tenta corrigir CEP/endereço, move dados para a coluna certa quando possível e limpa o que não for confiável.
+              </p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2 class="panel-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+              Como funciona
+            </h2>
+            <div class="tips" style="margin-top: 16px;">
+              <div class="tip"><strong>Sem geo_*:</strong> não cria colunas extras. O ajuste acontece nas colunas originais.</div>
+              <div class="tip"><strong>Realocação inteligente:</strong> se entrar UF na cidade, CEP no bairro ou cidade no CEP, o sistema tenta mover para a coluna certa.</div>
+              <div class="tip"><strong>Limpeza segura:</strong> quando um valor não for confiável e não puder ser recuperado, ele é limpo em vez de ficar como lixo.</div>
+            </div>
+
+            <div class="foot-note">
+              <strong>💡 Dica de Fluxo:</strong> use <em>Ultra-rápido</em> no lote inteiro para uma passada forte local. Use <em>Completo</em> só nas linhas ou arquivos que ainda precisarem de validação externa.
+            </div>
+          </div>
+        </aside>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const DOM = {
+      fileInput: document.getElementById("fileInput"),
+      dropZone: document.getElementById("dropZone"),
+      processBtn: document.getElementById("processBtn"),
+      clearBtn: document.getElementById("clearBtn"),
+      statusEl: document.getElementById("status"),
+      progressBar: document.getElementById("progressBar"),
+      progressPercent: document.getElementById("progressPercent"),
+      progressLabel: document.getElementById("progressLabel"),
+      modeHint: document.getElementById("modeHint"),
+      statusHint: document.getElementById("statusHint"),
+      fileNote: document.getElementById("fileNote"),
+      topModeLabel: document.getElementById("topModeLabel"),
+      modeSummaryText: document.getElementById("modeSummaryText"),
+      cards: {
+        ultra: document.getElementById("modeUltraCard"),
+        rapido: document.getElementById("modeRapidoCard"),
+        completo: document.getElementById("modeCompletoCard")
+      },
+      accordions: document.querySelectorAll(".what-btn")
+    };
+
+    const State = {
+      selectedFile: null,
+      polling: null,
+      selectedMode: "ultra",
+      descriptions: {
+        ultra: "Motor local reforçado: normaliza, tenta corrigir CEP/endereço, move dados para a coluna certa quando possível e limpa o que não for confiável.",
+        rapido: "No backend atual, usa a mesma lógica local do Ultra. Continua sem web, ideal para quem quer revisão local sem geocodificação.",
+        completo: "Usa toda a etapa local e ainda adiciona ViaCEP, busca por endereço na web e geocodificação via OSM/Nominatim."
+      }
+    };
+
+    function setStatus(msg, type = "info") {
+      DOM.statusEl.style.display = "flex";
+      DOM.statusEl.textContent = msg;
+      DOM.statusEl.className = `status ${type}`;
+      DOM.statusHint.textContent = type === "err" ? "Erro" : type === "ok" ? "Concluído" : "Processando...";
+    }
+
+    function setLoading(isLoading) {
+      DOM.processBtn.disabled = isLoading;
+      DOM.clearBtn.disabled = isLoading;
+      DOM.fileInput.disabled = isLoading;
+
+      const pointerState = isLoading ? "none" : "auto";
+      Object.values(DOM.cards).forEach(card => card.style.pointerEvents = pointerState);
+      DOM.dropZone.style.pointerEvents = pointerState;
+
+      if (isLoading) {
+        DOM.processBtn.innerHTML = `
+          <svg class="spinner" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+          Processando...
+        `;
+        DOM.progressBar.classList.add("active");
+      } else {
+        DOM.processBtn.innerHTML = "Processar Planilha";
+        DOM.progressBar.classList.remove("active");
+      }
+    }
+
+    function setProgress(value, current = 0, total = 0, message = "") {
+      const pct = Math.max(0, Math.min(100, Number(value || 0)));
+      DOM.progressBar.style.width = pct + "%";
+      DOM.progressPercent.textContent = `${pct}%`;
+
+      if (total > 0) {
+        DOM.progressLabel.textContent = `${current}/${total} • ${message || "Andamento"}`;
+      } else {
+        DOM.progressLabel.textContent = message || (pct === 0 ? "Pronto" : "Processando...");
+      }
     }
 
     function renderMode() {
-      modeUltraCard.classList.toggle("active", selectedMode === "ultra");
-      modeRapidoCard.classList.toggle("active", selectedMode === "rapido");
-      modeCompletoCard.classList.toggle("active", selectedMode === "completo");
+      Object.entries(DOM.cards).forEach(([key, element]) => {
+        element.classList.toggle("active", State.selectedMode === key);
+      });
 
-      if (selectedMode === "ultra") {
-        modeHint.textContent = "Ultra-rápido";
-        topModeLabel.textContent = "Ultra";
-      } else if (selectedMode === "rapido") {
-        modeHint.textContent = "Rápido";
-        topModeLabel.textContent = "Rápido";
+      const titles = { ultra: "Ultra-rápido", rapido: "Rápido", completo: "Completo" };
+      const labels = { ultra: "Ultra", rapido: "Rápido", completo: "Completo" };
+
+      DOM.modeHint.textContent = titles[State.selectedMode];
+      DOM.topModeLabel.textContent = labels[State.selectedMode];
+      DOM.modeSummaryText.textContent = State.descriptions[State.selectedMode];
+    }
+
+    function updateFileNote(fileName) {
+      if (fileName) {
+        DOM.fileNote.innerHTML = `<strong style="color:var(--heading)">Arquivo:</strong>&nbsp;${fileName}`;
+        setStatus("Pronto para iniciar.", "info");
       } else {
-        modeHint.textContent = "Completo";
-        topModeLabel.textContent = "Completo";
+        DOM.fileNote.innerHTML = "Nenhum arquivo selecionado.";
+        DOM.statusEl.style.display = "none";
       }
+    }
 
-      modeSummaryText.textContent = modeDescriptions[selectedMode];
+    function getDownloadNameFromHeader(response) {
+      const cd = response.headers.get("Content-Disposition");
+      if (!cd) return "geopadroniza_resultado.xlsx";
+      const match = cd.match(/filename="?([^"]+)"?/i);
+      return match ? match[1] : "geopadroniza_resultado.xlsx";
     }
 
     async function baixarArquivo(jobId) {
@@ -857,8 +2117,8 @@
 
       const blob = await response.blob();
       const filename = getDownloadNameFromHeader(response);
-
       const url = URL.createObjectURL(blob);
+
       const a = document.createElement("a");
       a.href = url;
       a.download = filename;
@@ -869,19 +2129,18 @@
     }
 
     async function acompanharJob(jobId) {
-      polling = setInterval(async () => {
+      State.polling = setInterval(async () => {
         try {
           const response = await fetch(`/status/${jobId}`);
-          if (!response.ok) throw new Error("Erro ao consultar status.");
+          if (!response.ok) throw new Error("Falha na comunicação.");
 
           const data = await response.json();
-
           setProgress(data.progress, data.current, data.total, data.message);
           setStatus(data.message, data.status === "erro" ? "err" : "info");
 
           if (data.done) {
-            clearInterval(polling);
-            polling = null;
+            clearInterval(State.polling);
+            State.polling = null;
             setLoading(false);
 
             if (data.error) {
@@ -890,127 +2149,122 @@
             }
 
             setProgress(100, data.current, data.total, "Concluído");
-            setStatus("Processamento concluído. Baixando arquivo...", "ok");
+            setStatus("Baixando arquivo...", "ok");
             await baixarArquivo(jobId);
           }
         } catch (err) {
-          clearInterval(polling);
-          polling = null;
+          clearInterval(State.polling);
+          State.polling = null;
           setLoading(false);
-          setStatus(err.message || "Erro ao acompanhar progresso.", "err");
+          setStatus(err.message || "Erro de conexão.", "err");
         }
       }, 1000);
     }
 
-    function closeAllDetails() {
+    function closeAllAccordions() {
       document.querySelectorAll(".mode-details").forEach(el => el.classList.remove("open"));
+      DOM.accordions.forEach(btn => btn.setAttribute("aria-expanded", "false"));
     }
 
-    document.querySelectorAll(".what-btn").forEach(btn => {
+    DOM.accordions.forEach(btn => {
       btn.addEventListener("click", (e) => {
         e.stopPropagation();
         const targetId = btn.getAttribute("data-target");
         const target = document.getElementById(targetId);
-
         const isOpen = target.classList.contains("open");
-        closeAllDetails();
+
+        closeAllAccordions();
         if (!isOpen) {
           target.classList.add("open");
+          btn.setAttribute("aria-expanded", "true");
         }
       });
     });
 
-    modeUltraCard.addEventListener("click", () => {
-      selectedMode = "ultra";
-      renderMode();
+    Object.entries(DOM.cards).forEach(([key, card]) => {
+      card.addEventListener("click", () => {
+        State.selectedMode = key;
+        renderMode();
+      });
+
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          State.selectedMode = key;
+          renderMode();
+        }
+      });
     });
 
-    modeRapidoCard.addEventListener("click", () => {
-      selectedMode = "rapido";
-      renderMode();
+    DOM.fileInput.addEventListener("change", () => {
+      State.selectedFile = DOM.fileInput.files[0] || null;
+      updateFileNote(State.selectedFile ? State.selectedFile.name : null);
     });
 
-    modeCompletoCard.addEventListener("click", () => {
-      selectedMode = "completo";
-      renderMode();
-    });
-
-    function updateFileNote(fileName) {
-      if (fileName) {
-        fileNote.innerHTML = `Arquivo pronto: <strong>${fileName}</strong>`;
-        setStatus(`Arquivo selecionado: ${fileName}`, "info");
-      } else {
-        fileNote.innerHTML = `Nenhum arquivo selecionado.`;
-        setStatus("Aguardando arquivo para iniciar.", "info");
-      }
-    }
-
-    fileInput.addEventListener("change", () => {
-      selectedFile = fileInput.files[0] || null;
-      updateFileNote(selectedFile ? selectedFile.name : null);
-    });
-
-    dropZone.addEventListener("dragover", (e) => {
+    DOM.dropZone.addEventListener("dragover", (e) => {
       e.preventDefault();
-      dropZone.classList.add("drag");
+      DOM.dropZone.classList.add("drag");
     });
 
-    dropZone.addEventListener("dragleave", () => {
-      dropZone.classList.remove("drag");
-    });
+    DOM.dropZone.addEventListener("dragleave", () => DOM.dropZone.classList.remove("drag"));
 
-    dropZone.addEventListener("drop", (e) => {
+    DOM.dropZone.addEventListener("drop", (e) => {
       e.preventDefault();
-      dropZone.classList.remove("drag");
+      DOM.dropZone.classList.remove("drag");
 
       const file = e.dataTransfer.files[0];
       if (!file) return;
 
       if (!/\.(xlsx|xlsm)$/i.test(file.name)) {
-        setStatus("Selecione um arquivo .xlsx ou .xlsm.", "err");
+        setStatus("Formato inválido.", "err");
         return;
       }
 
-      selectedFile = file;
+      State.selectedFile = file;
       const dt = new DataTransfer();
       dt.items.add(file);
-      fileInput.files = dt.files;
-
+      DOM.fileInput.files = dt.files;
       updateFileNote(file.name);
     });
 
-    clearBtn.addEventListener("click", () => {
-      selectedFile = null;
-      fileInput.value = "";
-      updateFileNote(null);
-      setProgress(0, 0, 0, "");
-      statusHint.textContent = "Aguardando";
-      closeAllDetails();
+    DOM.dropZone.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        DOM.fileInput.click();
+      }
     });
 
-    processBtn.addEventListener("click", async () => {
-      if (!selectedFile) {
-        setStatus("Selecione uma planilha antes de processar.", "err");
+    DOM.clearBtn.addEventListener("click", () => {
+      State.selectedFile = null;
+      DOM.fileInput.value = "";
+      updateFileNote(null);
+      setProgress(0, 0, 0, "");
+      DOM.statusHint.textContent = "Aguardando";
+      closeAllAccordions();
+    });
+
+    DOM.processBtn.addEventListener("click", async () => {
+      if (!State.selectedFile) {
+        setStatus("Selecione uma planilha.", "err");
+        DOM.dropZone.style.borderColor = "var(--danger)";
+        setTimeout(() => DOM.dropZone.style.borderColor = "", 2000);
         return;
       }
 
       try {
         setLoading(true);
-        setProgress(0, 0, 0, "Enviando arquivo...");
-        setStatus(`Enviando arquivo no modo ${selectedMode}...`, "info");
-        statusHint.textContent = "Iniciando";
+        setProgress(0, 0, 0, "Transferindo...");
+        setStatus(`Modo ${State.selectedMode}...`, "info");
+        DOM.statusHint.textContent = "Enviando";
 
         const form = new FormData();
-        form.append("file", selectedFile);
-        form.append("mode", selectedMode);
+        form.append("file", State.selectedFile);
+        form.append("mode", State.selectedMode);
 
-        const response = await fetch("/process", {
-          method: "POST",
-          body: form
-        });
+        const response = await fetch("/process", { method: "POST", body: form });
 
         if (!response.ok) {
-          let msg = "Erro ao iniciar processamento.";
+          let msg = "Falha no servidor.";
           try {
             const err = await response.json();
             msg = err.detail || msg;
@@ -1027,7 +2281,12 @@
       }
     });
 
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = `@keyframes spin { 100% { transform: rotate(360deg); } }`;
+    document.head.appendChild(styleSheet);
+
     renderMode();
   </script>
 </body>
 </html>
+>>>>>>> 76c427d (novos)
