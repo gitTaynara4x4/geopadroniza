@@ -1,9 +1,6 @@
-fastapi==0.116.1
-uvicorn[standard]==0.35.0
-python-multipart==0.0.20
-openpyxl==3.1.5
-<<<<<<< HEAD
-requests==2.32.5
-=======
-requests==2.32.5
->>>>>>> 76c427d (novos)
+fastapi
+uvicorn[standard]
+python-multipart
+requests
+openpyxl
+pydantic

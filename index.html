@@ -470,6 +470,75 @@
       gap: 8px;
     }
 
+    .preference-box {
+      margin-top: 20px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg);
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+    }
+
+    .toggle-row input[type="checkbox"] {
+      display: none;
+    }
+
+    .toggle-switch {
+      width: 48px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--border-hover);
+      position: relative;
+      flex-shrink: 0;
+      transition: all var(--transition);
+      margin-top: 2px;
+    }
+
+    .toggle-switch::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition);
+    }
+
+    .toggle-row input:checked + .toggle-switch {
+      background: var(--primary);
+    }
+
+    .toggle-row input:checked + .toggle-switch::after {
+      transform: translateX(20px);
+    }
+
+    .toggle-copy {
+      display: block;
+    }
+
+    .toggle-copy strong {
+      display: block;
+      color: var(--heading);
+      font-size: 0.92rem;
+      margin-bottom: 4px;
+    }
+
+    .toggle-copy span {
+      display: block;
+      color: var(--text);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
     .actions {
       display: flex;
       gap: 16px;
@@ -880,6 +949,20 @@
             </article>
           </div>
 
+          <div class="preference-box">
+            <label class="toggle-row" for="uppercaseToggle">
+              <input id="uppercaseToggle" type="checkbox" />
+              <span class="toggle-switch" aria-hidden="true"></span>
+              <span class="toggle-copy">
+                <strong>Quero todos os endereços em CAIXA ALTA</strong>
+                <span>
+                  Rua, bairro, cidade, complemento e logradouro final serão gravados em maiúsculas.
+                  CEP, UF e número continuam no formato normal.
+                </span>
+              </span>
+            </label>
+          </div>
+
           <div class="actions">
             <button class="btn-primary" id="processBtn">
               Processar Planilha
@@ -959,6 +1042,7 @@
       fileNote: document.getElementById("fileNote"),
       topModeLabel: document.getElementById("topModeLabel"),
       modeSummaryText: document.getElementById("modeSummaryText"),
+      uppercaseToggle: document.getElementById("uppercaseToggle"),
       cards: {
         ultra: document.getElementById("modeUltraCard"),
         rapido: document.getElementById("modeRapidoCard"),
@@ -989,6 +1073,7 @@
       DOM.processBtn.disabled = isLoading;
       DOM.clearBtn.disabled = isLoading;
       DOM.fileInput.disabled = isLoading;
+      DOM.uppercaseToggle.disabled = isLoading;
 
       const pointerState = isLoading ? "none" : "auto";
       Object.values(DOM.cards).forEach(card => card.style.pointerEvents = pointerState);
@@ -1181,6 +1266,7 @@
     DOM.clearBtn.addEventListener("click", () => {
       State.selectedFile = null;
       DOM.fileInput.value = "";
+      DOM.uppercaseToggle.checked = false;
       updateFileNote(null);
       setProgress(0, 0, 0, "");
       DOM.statusHint.textContent = "Aguardando";
@@ -1204,6 +1290,7 @@
         const form = new FormData();
         form.append("file", State.selectedFile);
         form.append("mode", State.selectedMode);
+        form.append("uppercase_addresses", DOM.uppercaseToggle.checked ? "true" : "false");
 
         const response = await fetch("/process", { method: "POST", body: form });
 

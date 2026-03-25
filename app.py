@@ -22,8 +22,8 @@ from fastapi.responses import HTMLResponse, StreamingResponse, FileResponse
 
 BASE_DIR = Path(__file__).resolve().parent
 APP_NAME = "GeoPadroniza"
-APP_UA = "GeoPadroniza/SAFE-9.1 (+local-db-overwrite-no-geo+city-cep-fallback+smart-relocation)"
-APP_VERSION = "9.1.2"
+APP_UA = "GeoPadroniza/SAFE-9.1 (+local-db-overwrite-no-geo+city-cep-fallback+smart-relocation+uppercase)"
+APP_VERSION = "9.1.3"
 
 NOMINATIM_DELAY_SECONDS = 1.1
 REQUEST_TIMEOUT = 25
@@ -248,6 +248,17 @@ def smart_title(texto):
 
 def so_digitos(texto):
     return re.sub(r"\D", "", limpar_texto(texto))
+
+
+def form_bool(valor) -> bool:
+    return str(valor).strip().lower() in {"1", "true", "on", "yes", "sim"}
+
+
+def texto_saida_endereco(valor: str, caixa_alta: bool = False) -> str:
+    txt = limpar_texto(valor)
+    if not txt:
+        return ""
+    return txt.upper() if caixa_alta else txt
 
 
 def cep_eh_placeholder(cep: str) -> bool:
@@ -571,6 +582,7 @@ def init_job(filename: str, mode: str) -> str:
         "error": None,
         "output_bytes": None,
         "output_name": None,
+        "uppercase_addresses": False,
     }
     return job_id
 
@@ -1331,6 +1343,28 @@ def limpar_artefatos_antigos(wb):
 # LEITURA / LIMPEZA DE LINHA
 # =========================================================
 
+def parece_bairro_texto(texto: str) -> bool:
+    n = normalizar_chave(texto)
+    if not n:
+        return False
+    toks = set(tokenizar_normalizado(n))
+    return bool(toks & BAIRRO_HINTS)
+
+
+def parece_cidade_texto(texto: str) -> bool:
+    n = normalizar_chave(texto)
+    if not n:
+        return False
+    if n in STATE_NAME_TO_UF:
+        return False
+    if texto_tem_digitos_ruins_localidade(texto):
+        return False
+    toks = set(tokenizar_normalizado(n))
+    if toks & BAIRRO_HINTS:
+        return False
+    return len(toks) <= 4
+
+
 def aplicar_realocacao_inteligente(campos: Dict[str, str]) -> Dict[str, str]:
     campos = {k: limpar_texto(v) for k, v in campos.items()}
 
@@ -1343,7 +1377,6 @@ def aplicar_realocacao_inteligente(campos: Dict[str, str]) -> Dict[str, str]:
             campos[destino] = valor
         campos[origem] = ""
 
-    # cidade -> uf / cep / bairro
     cidade = limpar_texto(campos.get("cidade", ""))
     if cidade:
         if normalizar_uf(cidade):
@@ -1353,7 +1386,6 @@ def aplicar_realocacao_inteligente(campos: Dict[str, str]) -> Dict[str, str]:
         elif parece_bairro_texto(cidade) and not parece_cidade_texto(cidade):
             mover("cidade", "bairro", cidade)
 
-    # bairro -> uf / cep / cidade
     bairro = limpar_texto(campos.get("bairro", ""))
     if bairro:
         if normalizar_uf(bairro):
@@ -1363,7 +1395,6 @@ def aplicar_realocacao_inteligente(campos: Dict[str, str]) -> Dict[str, str]:
         elif parece_cidade_texto(bairro) and not parece_bairro_texto(bairro):
             mover("bairro", "cidade", bairro)
 
-    # cep -> cidade / bairro / uf
     cep = limpar_texto(campos.get("cep", ""))
     if cep and not cep_valido(cep):
         if normalizar_uf(cep):
@@ -1373,7 +1404,6 @@ def aplicar_realocacao_inteligente(campos: Dict[str, str]) -> Dict[str, str]:
         elif parece_cidade_texto(cep):
             mover("cep", "cidade", cep)
 
-    # uf -> cidade / bairro / cep
     uf = limpar_texto(campos.get("uf", ""))
     if uf and not uf_valida(uf):
         if extrair_cep_de_texto(uf):
@@ -1383,7 +1413,6 @@ def aplicar_realocacao_inteligente(campos: Dict[str, str]) -> Dict[str, str]:
         elif parece_cidade_texto(uf):
             mover("uf", "cidade", uf)
 
-    # complemento -> uf / cep / cidade / bairro, só se destino vazio
     complemento = limpar_texto(campos.get("complemento", ""))
     if complemento:
         if not campos.get("cep") and extrair_cep_de_texto(complemento):
@@ -1547,28 +1576,6 @@ def pode_preencher_cep_por_fallback(cep_atual: str) -> bool:
     return not cep_valido(cep_atual)
 
 
-def parece_bairro_texto(texto: str) -> bool:
-    n = normalizar_chave(texto)
-    if not n:
-        return False
-    toks = set(tokenizar_normalizado(n))
-    return bool(toks & BAIRRO_HINTS)
-
-
-def parece_cidade_texto(texto: str) -> bool:
-    n = normalizar_chave(texto)
-    if not n:
-        return False
-    if n in STATE_NAME_TO_UF:
-        return False
-    if texto_tem_digitos_ruins_localidade(texto):
-        return False
-    toks = set(tokenizar_normalizado(n))
-    if toks & BAIRRO_HINTS:
-        return False
-    return len(toks) <= 4
-
-
 def corrigir_campos_localmente(campos: Dict[str, str]) -> Dict[str, str]:
     campos["uf"] = normalizar_uf(campos.get("uf", ""))
     campos["cep"] = formatar_cep(campos.get("cep", ""))
@@ -1718,26 +1725,35 @@ def aplicar_fallback_cep_cidade(campos, data):
 # SOBRESCRITA DAS COLUNAS ORIGINAIS
 # =========================================================
 
-def sobrescrever_colunas_originais(ws, row_idx, cols_map, resultado):
+def sobrescrever_colunas_originais(ws, row_idx, cols_map, resultado, uppercase_addresses=False):
     campos = resultado["campos"]
 
     def set_if_has_value(chave, valor):
         col = cols_map.get(chave)
         if not col:
             return
-        valor = limpar_texto(valor)
+
+        if chave in {"tipo", "rua", "bairro", "cidade", "complemento"}:
+            valor = texto_saida_endereco(valor, uppercase_addresses)
+        else:
+            valor = limpar_texto(valor)
+
         if valor:
             ws.cell(row=row_idx, column=col, value=valor)
 
     if cols_map.get("tipo"):
-        if limpar_texto(campos.get("tipo", "")):
-            ws.cell(row=row_idx, column=cols_map["tipo"], value=campos.get("tipo", ""))
-        if cols_map.get("rua") and limpar_texto(campos.get("rua", "")):
-            ws.cell(row=row_idx, column=cols_map["rua"], value=campos.get("rua", ""))
+        tipo_final = texto_saida_endereco(campos.get("tipo", ""), uppercase_addresses)
+        rua_final = texto_saida_endereco(campos.get("rua", ""), uppercase_addresses)
+
+        if tipo_final:
+            ws.cell(row=row_idx, column=cols_map["tipo"], value=tipo_final)
+        if cols_map.get("rua") and rua_final:
+            ws.cell(row=row_idx, column=cols_map["rua"], value=rua_final)
     else:
         if cols_map.get("rua"):
             logradouro_novo = montar_logradouro(campos.get("tipo", ""), campos.get("rua", ""))
-            if limpar_texto(logradouro_novo):
+            logradouro_novo = texto_saida_endereco(logradouro_novo, uppercase_addresses)
+            if logradouro_novo:
                 ws.cell(row=row_idx, column=cols_map["rua"], value=logradouro_novo)
 
     if numero_valido(campos.get("numero", "")):
@@ -1748,7 +1764,11 @@ def sobrescrever_colunas_originais(ws, row_idx, cols_map, resultado):
         bairro_original = limpar_texto(ws.cell(row=row_idx, column=bairro_col).value)
         bairro_final = limpar_texto(campos.get("bairro", ""))
         if bairro_final and not bairro_suspeito(bairro_final):
-            ws.cell(row=row_idx, column=bairro_col, value=bairro_final)
+            ws.cell(
+                row=row_idx,
+                column=bairro_col,
+                value=texto_saida_endereco(bairro_final, uppercase_addresses)
+            )
         elif bairro_original_invalido_e_nao_aproveitavel(bairro_original):
             ws.cell(row=row_idx, column=bairro_col, value="")
 
@@ -1757,7 +1777,11 @@ def sobrescrever_colunas_originais(ws, row_idx, cols_map, resultado):
         cidade_original = limpar_texto(ws.cell(row=row_idx, column=cidade_col).value)
         cidade_final = limpar_texto(campos.get("cidade", ""))
         if cidade_final and not cidade_suspeita(cidade_final):
-            ws.cell(row=row_idx, column=cidade_col, value=cidade_final)
+            ws.cell(
+                row=row_idx,
+                column=cidade_col,
+                value=texto_saida_endereco(cidade_final, uppercase_addresses)
+            )
         elif cidade_original_invalida_e_nao_aproveitavel(cidade_original):
             ws.cell(row=row_idx, column=cidade_col, value="")
 
@@ -1799,14 +1823,12 @@ def processar_linha(campos, ctx, mode):
     usou_osm = False
     osm_item = None
 
-    # 1) CEP real do registro sempre tem prioridade
     if cep_valido(campos.get("cep", "")):
         data_local_cep = correios_por_cep_local(campos.get("cep", ""), ctx)
         if data_local_cep:
             campos = aplicar_retorno_correios_local(campos, data_local_cep)
             usou_dne_cep = True
 
-    # 2) Se CEP estiver ruim/ausente, tenta por endereço no banco local
     if not usou_dne_cep and consegue_busca_endereco(campos):
         via = montar_logradouro(campos.get("tipo", ""), campos.get("rua", ""))
         data_local_end = correios_por_endereco_local(
@@ -1820,7 +1842,6 @@ def processar_linha(campos, ctx, mode):
             campos = aplicar_retorno_correios_local(campos, data_local_end)
             usou_dne_endereco = True
 
-    # 3) Se ainda falhar, usa CEP aproximado da cidade/UF no banco local
     if (
         not usou_dne_cep
         and not usou_dne_endereco
@@ -1836,7 +1857,6 @@ def processar_linha(campos, ctx, mode):
             campos = aplicar_fallback_cep_cidade(campos, data_cidade)
             usou_dne_cidade = True
 
-    # 4) Modo completo tenta web depois da base local
     if mode == "completo":
         if cep_valido(campos.get("cep", "")) and not usou_dne_cep:
             data_cep = viacep_por_cep(campos.get("cep", ""), ctx)
@@ -1911,7 +1931,7 @@ def contar_total_linhas_processaveis(wb):
     return total
 
 
-def processar_workbook_bytes(input_bytes: bytes, mode: str, ext: str, job_id=None) -> bytes:
+def processar_workbook_bytes(input_bytes: bytes, mode: str, ext: str, job_id=None, uppercase_addresses=False) -> bytes:
     ctx = ConsultaContexto()
 
     try:
@@ -1955,7 +1975,13 @@ def processar_workbook_bytes(input_bytes: bytes, mode: str, ext: str, job_id=Non
                     continue
 
                 resultado = processar_linha(campos, ctx, mode)
-                sobrescrever_colunas_originais(ws, row_idx, cols_map, resultado)
+                sobrescrever_colunas_originais(
+                    ws,
+                    row_idx,
+                    cols_map,
+                    resultado,
+                    uppercase_addresses=uppercase_addresses
+                )
 
                 current += 1
 
@@ -1978,7 +2004,7 @@ def processar_workbook_bytes(input_bytes: bytes, mode: str, ext: str, job_id=Non
         ctx.close()
 
 
-def executar_job(job_id: str, input_bytes: bytes, ext: str, nome_arquivo: str, mode: str):
+def executar_job(job_id: str, input_bytes: bytes, ext: str, nome_arquivo: str, mode: str, uppercase_addresses: bool = False):
     try:
         update_job(
             job_id,
@@ -1990,7 +2016,8 @@ def executar_job(job_id: str, input_bytes: bytes, ext: str, nome_arquivo: str, m
             input_bytes=input_bytes,
             mode=mode,
             ext=ext,
-            job_id=job_id
+            job_id=job_id,
+            uppercase_addresses=uppercase_addresses
         )
 
         output_ext = ".xlsm" if ext == ".xlsm" else ".xlsx"
@@ -2065,6 +2092,7 @@ def health():
         "fallback_cep_aproximado_por_cidade": True,
         "limpa_cep_invalido_quando_nao_recupera": True,
         "realoca_valor_para_coluna_certa": True,
+        "suporta_enderecos_caixa_alta": True,
         "modos": ["ultra", "rapido", "completo"],
         "extensoes_seguras": [".xlsx", ".xlsm"],
     }
@@ -2073,7 +2101,8 @@ def health():
 @app.post("/process")
 async def process(
     file: UploadFile = File(...),
-    mode: str = Form("ultra")
+    mode: str = Form("ultra"),
+    uppercase_addresses: str = Form("false")
 ):
     if not file.filename:
         raise HTTPException(status_code=400, detail="Arquivo inválido.")
@@ -2089,15 +2118,18 @@ async def process(
     if mode not in MODES:
         raise HTTPException(status_code=400, detail="Modo inválido. Use 'ultra', 'rapido' ou 'completo'.")
 
+    uppercase_addresses_bool = form_bool(uppercase_addresses)
+
     input_bytes = await file.read()
     if not input_bytes:
         raise HTTPException(status_code=400, detail="Arquivo vazio.")
 
     job_id = init_job(file.filename, mode)
+    JOBS[job_id]["uppercase_addresses"] = uppercase_addresses_bool
 
     thread = threading.Thread(
         target=executar_job,
-        args=(job_id, input_bytes, ext, file.filename, mode),
+        args=(job_id, input_bytes, ext, file.filename, mode, uppercase_addresses_bool),
         daemon=True
     )
     thread.start()
@@ -2105,7 +2137,8 @@ async def process(
     return {
         "ok": True,
         "job_id": job_id,
-        "mode": mode
+        "mode": mode,
+        "uppercase_addresses": uppercase_addresses_bool
     }
 
 
@@ -2125,6 +2158,7 @@ def status_job(job_id: str):
         "message": job["message"],
         "done": job["done"],
         "error": job["error"],
+        "uppercase_addresses": job.get("uppercase_addresses", False),
     }
 
 
